@@ -1,6 +1,7 @@
 import React, { useState, useEffect} from 'react'
 import Link from 'next/link'
 import '../../configureAmplify'
+import { Auth, Hub } from 'aws-amplify'
 
 const routes = [
   ['Home', '/'],
@@ -11,6 +12,30 @@ const routes = [
 const Navbar = () => {
   const [userSignedIn, setUserSignedIn] = useState(false)
 
+  const authListener = async () => {
+    Hub.listen('auth', (data) => {
+      switch (data.payload.event) {
+        case 'signIn':
+          return setUserSignedIn(true)
+        case 'signOut':
+          return setUserSignedIn(false)
+        default:
+          return setUserSignedIn(false)
+      }
+    })
+
+    try {
+      await Auth.currentAuthenticatedUser()
+      setUserSignedIn(true)
+    }catch (err) {
+      console.log(err)
+    }
+  }
+
+  useEffect(() => {
+    authListener()
+  }, [])
+  
   return (
 	<div className="bg-white shadow">
     <div className="container mx-auto px-4">
@@ -25,12 +50,24 @@ const Navbar = () => {
           {routes.map(([title, url], index) => (
             <Link key={index} href={url} className="text-gray-800 text-sm font-semibold hover:text-purple-600 mr-4">{title}</Link>
           ))}
+
+          {userSignedIn && (
+            <Link href="#" className="text-gray-800 text-sm font-semibold hover:text-purple-600 mr-4">My Posts</Link>
+          )}
         </div>
 
         <div className="hidden sm:flex sm:items-center">
-          <Link href="#" className="text-gray-800 text-sm font-semibold hover:text-purple-600 mr-4">Sign in</Link>
-          <Link href="#" className="text-gray-800 text-sm font-semibold border px-4 py-2 rounded-lg hover:text-purple-600 hover:border-purple-600">Sign up</Link>
-        </div>
+          {userSignedIn && (
+            <Link href="#" className="text-gray-800 text-sm font-semibold hover:text-purple-600 mr-4">Sign out</Link>
+          )}
+
+          {!userSignedIn && (
+            <>
+              <Link href="#" className="text-gray-800 text-sm font-semibold hover:text-purple-600 mr-4">Sign in</Link>
+            <Link href="#" className="text-gray-800 text-sm font-semibold border px-4 py-2 rounded-lg hover:text-purple-600 hover:border-purple-600">Sign up</Link>
+            </>
+          )}
+          </div>
 
         <div className="sm:hidden cursor-pointer">
           <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-purple-600" viewBox="0 0 24 24">
