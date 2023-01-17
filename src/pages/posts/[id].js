@@ -16,6 +16,8 @@ const Post = ({ post }) => {
   return (
     <div>
       <h1 className="text-2xl font-semibold tracking-wide mt-6">{post.title}</h1>
+      <p className='text-gray-500 text-sm'>By {post.username}</p>
+      <p className='text-gray-500 text-sm'>Created: {new Date(post.createdAt).toDateString()}</p>
       <ReactMarkdown>{post.content}</ReactMarkdown>
     </div>
   )
