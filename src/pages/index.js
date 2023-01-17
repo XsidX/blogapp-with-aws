@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
+import Link from 'next/link'
 import { API } from 'aws-amplify'
 import { listPosts } from '../../src/graphql/queries'
+import ReactMarkdown from 'react-markdown'
 
 const Home = () => {
   const [posts, setPosts] = useState([])
@@ -19,14 +21,17 @@ const Home = () => {
 
   return (
     <div>
-      <h2 className="text-3xl font-semibold tracking-wide mt-6">Posts</h2>
-      <div className="mt-8">
+      <h2 className="text-3xl font-semibold tracking-wide mt-6 text-purple-500">All Posts</h2>
+      <div className="mt-4 flex flex-col space-y-4">
         {posts.map(post => (
-          <div key={post.id} className="mt-4">
-            <h2 className="text-xl font-semibold">{post.title}</h2>
-            <p className="text-gray-500 mt-2">Author: {post.username}</p>
-            <p className="mt-2 text-gray-600">{post.content}</p>
-          </div>
+          <Link href={`/posts/${post.id}`} key={post.id}>
+            <div className="mt-4bg-white cursor-pointer p-4 rounded-lg shadow-sm hover:shadow-md transition duration-200 ease-in">
+              <h1 className="text-2xl font-semibold tracking-wide">{post.title}</h1>
+              <p className='text-gray-500 text-sm'>By {post.username}</p>
+              <p className='text-gray-500 text-sm'>Created: {new Date(post.createdAt).toDateString()}</p>
+              <ReactMarkdown>{post.content}</ReactMarkdown>
+            </div>
+          </Link>
         ))}
       </div>
     </div>
