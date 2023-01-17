@@ -14,7 +14,7 @@ const initialState = {title: '', content: ''}
 const CreatePost = () => {
   const [post, setPost] = useState(initialState)
   const { title, content } = post
-  // const router = useRouter()
+  const router = useRouter()
 
   const handleTitleChange = e => {
     setPost(() => ({...post, [e.target.name]: e.target.value}))
@@ -28,7 +28,7 @@ const CreatePost = () => {
     if (!title || !content) return
     post.id = uuid()
     await API.graphql({ query: createPostMutation, variables: { input: post }, authMode: 'AMAZON_COGNITO_USER_POOLS' })
-    // router.push(`/posts/${post.id}`)
+    router.push(`/posts/${post.id}`)
   }
 
   return (
