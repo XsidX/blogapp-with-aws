@@ -1,5 +1,6 @@
-import React from 'react'
-import { API } from 'aws-amplify'
+import React, { useState, useEffect } from 'react'
+import Image from 'next/image'
+import { API, Storage } from 'aws-amplify'
 import { useRouter } from 'next/router'
 import ReactMarkdown from 'react-markdown'
 import '../../../configureAmplify'
@@ -7,6 +8,18 @@ import { listPosts, getPost } from '../../graphql/queries'
 
 
 const Post = ({ post }) => {
+  const [coverImage, setCoverImage] = useState(null)
+
+  const updateCoverImage = async () => {
+    if (!post.coverImage) return
+    const imageKey = await Storage.get(post.coverImage)
+    setCoverImage(imageKey)
+  }
+
+  useEffect(() => {
+    updateCoverImage()
+  }, [])
+
   const router = useRouter()
   
   if (router.isFallback) {
@@ -16,6 +29,18 @@ const Post = ({ post }) => {
   return (
     <div>
       <h1 className="text-2xl font-semibold tracking-wide mt-6">{post.title}</h1>
+      {coverImage && (
+        <div className="my-4">
+          <Image
+            src={coverImage}
+            alt={post.title}
+            width={800}
+            height={600}
+            layout="responsive"
+            objectFit="cover"
+          />
+        </div>
+      )}
       <p className='text-gray-500 text-sm'>By {post.username}</p>
       <p className='text-gray-500 text-sm'>Created: {new Date(post.createdAt).toDateString()}</p>
       <div className="mt-4 text-base leading-relaxed text-left break-words whitespace-pre-line overflow-hidden">
