@@ -3,10 +3,10 @@ import Link from "next/link"
 import { API, Auth } from "aws-amplify"
 import { listPosts } from '../graphql/queries'
 import ReactMarkdown from 'react-markdown'
+import { deletePost as deletePostMutation } from "../../src/graphql/mutations"
 
 const MyPosts = () => {
   const [posts, setPosts] = useState([])
-  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     fetchPosts()
@@ -20,7 +20,15 @@ const MyPosts = () => {
     })
     const posts = postData.data.listPosts.items
     setPosts(posts)
-    setLoading(false)
+  }
+
+  const deletePost = async(id) => {
+    await API.graphql({
+      query: deletePostMutation,
+      variables: {input: {id}},
+      authMode: 'AMAZON_COGNITO_USER_POOLS'
+    })
+    fetchPosts()
   }
 
   return (
