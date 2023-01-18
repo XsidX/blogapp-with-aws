@@ -17,6 +17,9 @@
       },
       "auth": {
         "blogappwithawsf1fb2c95": {}
+      },
+      "storage": {
+        "postimages": {}
       }
     }
   }
