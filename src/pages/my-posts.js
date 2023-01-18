@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react"
 import Link from "next/link"
 import { API, Auth } from "aws-amplify"
 import { listPosts } from '../graphql/queries'
-import ReactMarkdown from 'react-markdown'
 import { deletePost as deletePostMutation } from "../../src/graphql/mutations"
 
 const MyPosts = () => {
@@ -41,12 +40,9 @@ const MyPosts = () => {
               <h1 className="text-2xl font-semibold tracking-wide">{post.title}</h1>
               <p className='text-gray-500 text-sm'>By {post.username}</p>
               <p className='text-gray-500 text-sm'>Created: {new Date(post.createdAt).toDateString()}</p>
-              <div className="mt-4 text-base leading-relaxed text-left break-words whitespace-pre-line overflow-hidden">
-                <ReactMarkdown>{post.content}</ReactMarkdown>
-              </div>
             </div>
             <div className="mt-4 flex space-x-4">
-              <Link href={`/posts/edit/${post.id}`}>
+              <Link href={`/edit-post/${post.id}`}>
                 <button 
                 type="button" 
                 className="px-3 py-1 text-sm text-purple-500 font-semibold rounded-3xl border border-gray-300 hover:bg-purple-500 hover:text-white focus:outline-none hover:border-purple-500"
