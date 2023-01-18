@@ -40,7 +40,7 @@ const EditPost = () => {
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold tracking-wide mt-6">Update post</h1>
+      <h1 className="text-2xl font-semibold tracking-wide mt-6 text-purple-500">Update post</h1>
       <input
         onChange={onChange}
         name="title"
