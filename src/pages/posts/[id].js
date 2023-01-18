@@ -18,7 +18,9 @@ const Post = ({ post }) => {
       <h1 className="text-2xl font-semibold tracking-wide mt-6">{post.title}</h1>
       <p className='text-gray-500 text-sm'>By {post.username}</p>
       <p className='text-gray-500 text-sm'>Created: {new Date(post.createdAt).toDateString()}</p>
-      <ReactMarkdown>{post.content}</ReactMarkdown>
+      <div className="mt-4 text-base leading-relaxed text-left break-words whitespace-pre-line overflow-hidden">
+        <ReactMarkdown>{post.content}</ReactMarkdown>
+      </div>
     </div>
   )
 
