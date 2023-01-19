@@ -12,6 +12,17 @@ export const onCreatePost = /* GraphQL */ `
       content
       username
       coverImage
+      comments {
+        items {
+          id
+          message
+          postId
+          createdAt
+          updatedAt
+          createdBy
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -28,6 +39,17 @@ export const onUpdatePost = /* GraphQL */ `
       content
       username
       coverImage
+      comments {
+        items {
+          id
+          message
+          postId
+          createdAt
+          updatedAt
+          createdBy
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -44,8 +66,100 @@ export const onDeletePost = /* GraphQL */ `
       content
       username
       coverImage
+      comments {
+        items {
+          id
+          message
+          postId
+          createdAt
+          updatedAt
+          createdBy
+        }
+        nextToken
+      }
       createdAt
       updatedAt
+    }
+  }
+`;
+export const onCreateComment = /* GraphQL */ `
+  subscription OnCreateComment(
+    $filter: ModelSubscriptionCommentFilterInput
+    $createdBy: String
+  ) {
+    onCreateComment(filter: $filter, createdBy: $createdBy) {
+      id
+      message
+      post {
+        id
+        title
+        content
+        username
+        coverImage
+        comments {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      postId
+      createdAt
+      updatedAt
+      createdBy
+    }
+  }
+`;
+export const onUpdateComment = /* GraphQL */ `
+  subscription OnUpdateComment(
+    $filter: ModelSubscriptionCommentFilterInput
+    $createdBy: String
+  ) {
+    onUpdateComment(filter: $filter, createdBy: $createdBy) {
+      id
+      message
+      post {
+        id
+        title
+        content
+        username
+        coverImage
+        comments {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      postId
+      createdAt
+      updatedAt
+      createdBy
+    }
+  }
+`;
+export const onDeleteComment = /* GraphQL */ `
+  subscription OnDeleteComment(
+    $filter: ModelSubscriptionCommentFilterInput
+    $createdBy: String
+  ) {
+    onDeleteComment(filter: $filter, createdBy: $createdBy) {
+      id
+      message
+      post {
+        id
+        title
+        content
+        username
+        coverImage
+        comments {
+          nextToken
+        }
+        createdAt
+        updatedAt
+      }
+      postId
+      createdAt
+      updatedAt
+      createdBy
     }
   }
 `;
