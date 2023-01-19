@@ -56,6 +56,9 @@ In this project I learn how to develop a production-ready serverless backend API
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+### Live demo <a name="live-demo"></a>
+Go to live demo [here](https://dev.dfyd1jtzop25l.amplifyapp.com/)
+
 <!-- GETTING STARTED -->
 
 ## 💻 Getting Started <a name="getting-started"></a>
