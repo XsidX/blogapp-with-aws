@@ -5,10 +5,20 @@ import { useRouter } from 'next/router'
 import ReactMarkdown from 'react-markdown'
 import '../../../configureAmplify'
 import { listPosts, getPost } from '../../graphql/queries'
+import { createComment } from '../../graphql/mutations'
+import dynamic from 'next/dynamic'
+const SimpleMDE = dynamic(() => import('react-simplemde-editor'), { ssr: false })
+import 'easymde/dist/easymde.min.css'
 
+
+const initialState = { message: '' }
 
 const Post = ({ post }) => {
   const [coverImage, setCoverImage] = useState(null)
+  const [comment, setComment] = useState(initialState)
+  const [showComments, setShowComments] = useState(false)
+
+  const toggleComments = () => setShowComments(!showComments)
 
   const updateCoverImage = async () => {
     if (!post.coverImage) return
@@ -46,9 +56,30 @@ const Post = ({ post }) => {
       <div className="mt-4 text-base leading-relaxed text-left break-words whitespace-pre-line overflow-hidden">
         <ReactMarkdown>{post.content}</ReactMarkdown>
       </div>
+
+      <div className="mt-4">
+        <button
+          className="text-sm font-semibold text-blue-500"
+          onClick={toggleComments}
+        >
+          Write a comment
+        </button>
+        {showComments && (
+          <div className="mt-4">
+            <SimpleMDE
+              value='hello'
+            />
+            <button
+              className="mt-2 font-semibold text-blue-500"
+              onClick={() => createComment({ variables: { input: comment } })}
+            >
+              Comment
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   )
-
 }
  
 export default Post
