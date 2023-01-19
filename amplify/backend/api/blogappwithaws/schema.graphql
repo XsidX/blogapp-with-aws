@@ -13,4 +13,17 @@ type Post @model
   content: String!
   username: String @index(name: "postsByUsername", queryField: "postsByUsername")
   coverImage: String
+  comments: [Comment] @hasMany(indexName: "byPost", fields: ["id"])
+}
+
+type Comment @model
+@auth(rules: [
+  { allow: owner, ownerField: "createdBy" },
+  { allow: public, operations: [read] }
+])
+{
+  id: ID!
+  message: String!
+  post: Post @belongsTo(fields: ["postId"])
+  postId: ID @index(name: "byPost")
 }
