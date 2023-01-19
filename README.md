@@ -31,8 +31,7 @@ In this project I learn how to develop a production-ready serverless backend API
   <summary>Client</summary>
   <ul>
     <li><a href="https://nextjs.org/">Nextjs</a></li>
-    <li><a href="https://aws.amazon.com/amplify/">AWS Amplify</a></li>
-    <li><a href="https://graphql.org/">Graphql</a></li>
+    <li><a href="https://tailwindcss.com/">Tailwindcss</a></li>
   </ul>
 </details>
 
